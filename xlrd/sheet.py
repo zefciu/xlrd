@@ -31,6 +31,7 @@ from __future__ import print_function
 
 from array import array
 from collections import Sequence
+import itertools
 from struct import unpack, calcsize
 from .biffh import *
 from .timemachine import *
@@ -390,6 +391,8 @@ class Sheet(BaseObject, Sequence):
 
 
     def __getitem__(self, i):
+        if isinstance(i, slice):
+            return itertools.islice(self, i.start, i.stop, i.step)
         return self.row(i)
 
     def __len__(self):
